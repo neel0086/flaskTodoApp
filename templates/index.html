@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ToDo APP</title>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Links -->
+    
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}" />
+  </head>
+  <body>
+    <!-- Main Header -->
+    <div class="main-header">
+      <div class="navbar">
+        <h1>ToDo App</h1>
+      </div>
+    </div>
+    <!-- End Main Header -->
+    <div class="main_container">
+      <div class="addtodo">
+        <!-- Add Task -->
+        <h2>Add Your Todos</h2>
+        <form id="addtask" action="/" method="POST">
+          
+          <input
+            id="add-task-input"
+            class="large"
+            type="text"
+            name="title"
+            placeholder="Write your Title here"
+            spellcheck="false"
+          />
+          <input
+            id="add-task-input"
+            class="large"
+            type="text"
+            name="desc"
+            placeholder="Write your task here..."
+            spellcheck="false"
+          />
+          <button type="submit" class="submit-op">Submit</button>
+          <!-- <i class="tasks icon"></i> -->
+        </form>
+        <!--TODO -->
+      </div>
+      <div class="todolist">
+        <h2>Your Todos</h2>
+        {% if allTodo|length == 0 %}
+              
+          <div class="alert alert-dark" role="alert">
+              No Todos found. Add your first todo now!
+          </div>
+        {% else %} 
+          <table class="design-table">
+            <thead>
+              <tr>
+                <th scope="col" class="tablegap">SNo</th>
+                <th scope="col" class="tablegap">Title</th>
+                <th scope="col" class="tablegap">Description</th>
+                <th scope="col" class="tablegap">Time</th>
+                <th scope="col" class="tablegap">Actions</th>
+              </tr>
+            </thead>
+                
+            <tbody>
+            {% for todo in allTodo %}
+              <tr>
+                <th class="tablegap" scope="row">{{loop.index}}</th>
+                <td class="tablegap">{{todo.title}}</td>
+                <td class="tablegap">{{todo.desc}}</td>
+                <td class="tablegap">{{todo.date_created}}</td>
+                <td class="crud-button">
+                  <button class="button-design"><a href="/update/{{todo.sr_no}}" type="button" >Update</button>
+                  <button class="button-design"><a href="/delete/{{todo.sr_no}}" type="button">Delete</button>
+                  <button class="button-design"><a href="/comment/{{todo.sr_no}}" type="button">comment</button>
+                </td>
+              </tr>
+        
+          {% endfor %}
+            </tbody>
+          </table>
+          {% endif %}
+
+      </div>    
+    </div>
+
+      
+   <script src={{url_for('static',filename='main.js')}}></script>
+  </body>
+</html>

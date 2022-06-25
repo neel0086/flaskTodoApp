@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='comment.css')}}" />
+</head>
+<body>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="d-form">
+                    <h4>Leave a comment</h4>
+                    <form id="algin-form" data={{todo.sr_no}}>
+           
+                            <textarea name="desc" cols="40" rows="5" class="submit-op"></textarea>
+                            <button type="submit" id="post" class="btn">Post Comment</button>
+                        
+                    </form>
+                </div>
+                <h1>Comments</h1>
+                {% if comments|length == 0 %}
+              
+                <div class="alert alert-dark" role="alert">
+                    No Todos found. Add your first todo now!
+                </div>
+                {% else %} 
+                <div class="commentlist">
+                    {% for comt in comments %}
+                        {% if loop.index is divisibleby 2 %}
+                            <div class="comment">
+                                <span>~ {{comt.date_created}}</span>
+                                <br>
+                                <p>{{comt.desc}}</p>
+                            </div>
+                        {% else %}
+                            <div class="darker">
+                                <span>~ {{comt.date_created}}</span>
+                                <br>
+                                <p>{{comt.desc}}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    
+                </div>
+                {% endif %}
+                
+            </div>
+        </div>
+    </section>
+    <script src={{url_for('static',filename='comment.js')}}></script>
+</body>
+</html>
