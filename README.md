@@ -22,6 +22,15 @@ Install with pip:
 $ pip install -r requirements.txt
 ```
 
+## Database
+#### Procedure
+```
+ >>python
+ >>from app import db
+ >>db.create_all()
+ >>db.create_all(bind='todocomment')
+ >>db.create_all(bind='todologin')
+```
 
 
 
