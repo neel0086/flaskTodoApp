@@ -71,9 +71,11 @@
                 <td class="tablegap">{{todo.desc}}</td>
                 <td class="tablegap">{{todo.date_created}}</td>
                 <td class="crud-button">
-                  <button class="button-design"><a href="/update/{{todo.sr_no}}" type="button" >Update</button>
-                  <button class="button-design"><a href="/delete/{{todo.sr_no}}" type="button">Delete</button>
-                  <button class="button-design"><a href="/comment/{{todo.sr_no}}" type="button">comment</button>
+                  {% if flag %}
+                  <button class="button-design"><a href="/{{todo.todo_user}}/update/{{todo.sr_no}}" type="button" >Update</button>
+                  <button class="button-design"><a href="/{{todo.todo_user}}/delete/{{todo.sr_no}}" type="button">Delete</button>
+                  {% endif %}
+                    <button class="button-design"><a href="/comment/{{todo.sr_no}}" type="button">comment</button>
                 </td>
               </tr>
         

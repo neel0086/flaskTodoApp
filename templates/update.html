@@ -21,7 +21,7 @@
       <div class="addtodo">
         <!-- Add Task -->
         <h2>Update Your Todo</h2>
-        <form id="addtask" action="/update/{{todo.sr_no}}" method="POST">
+        <form id="addtask" action="/{{todo.todo_user}}/update/{{todo.sr_no}}" method="POST">
           
           <input
             id="add-task-input"

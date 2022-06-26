@@ -50,7 +50,7 @@ def login():
         if data is not None:
             session['logged_in'] = True
             session['user'] = data.todo_user
-            return redirect(url_for('home'))
+            return redirect(data.todo_user+'/home')
         else:
             return render_template('login.html')
         # todolog = Todologin(todo_user=username, passw=passw)
@@ -73,8 +73,8 @@ def register():
     else:
         
         return render_template('register.html')
-@app.route("/home" ,methods=['GET','POST'])
-def home():
+@app.route("/<username>/home" ,methods=['GET','POST'])
+def home(username):
     # print(mssg)
     user = session['user']
     if request.method == 'POST':
@@ -86,31 +86,37 @@ def home():
         db.session.commit()
     else:
         allTodo = Todo.query.filter_by(todo_user=user).all()
-        return render_template('index.html', allTodo=allTodo)
+        return render_template('index.html', allTodo=allTodo,flag=(user==username))
 
 
 
-@app.route('/delete/<int:sr_no>')
-def delete(sr_no):
-    todo = Todo.query.filter_by(sr_no=sr_no).first()
-    db.session.delete(todo)
-    db.session.commit()
-    return redirect("/")
-
-@app.route('/update/<int:sr_no>', methods=['GET', 'POST'])
-def update(sr_no):
-    if request.method=='POST':
-        title = request.form['title']
-        desc = request.form['desc']
+@app.route('/<username>/delete/<int:sr_no>')
+def delete(sr_no,username):
+    if username!=session['user']:
+        return render_template('errorpage.html')
+    else:
         todo = Todo.query.filter_by(sr_no=sr_no).first()
-        todo.title = title
-        todo.desc = desc
-        db.session.add(todo)
+        db.session.delete(todo)
         db.session.commit()
-        return redirect("/")
-        
-    todo = Todo.query.filter_by(sr_no=sr_no).first()
-    return render_template('update.html', todo=todo)
+        return redirect('/'+username+'/home')
+
+@app.route('/<username>/update/<int:sr_no>', methods=['GET', 'POST'])
+def update(sr_no,username):
+    if username!=session['user']:
+        return render_template('errorpage.html')
+    else:
+        if request.method=='POST':
+            title = request.form['title']
+            desc = request.form['desc']
+            todo = Todo.query.filter_by(sr_no=sr_no).first()
+            todo.title = title
+            todo.desc = desc
+            db.session.add(todo)
+            db.session.commit()
+            return redirect('/'+username+'/home')
+            
+        todo = Todo.query.filter_by(sr_no=sr_no).first()
+        return render_template('update.html', todo=todo)
 
 @app.route('/comment/<int:sr_no>', methods=['GET', 'POST'])
 def comment(sr_no):
