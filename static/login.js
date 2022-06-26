@@ -5,7 +5,7 @@ sbutton.addEventListener('click',(e) =>{
     
     e.preventDefault()
     var data = new FormData(document.getElementById("addtask"));
-    fetch("/home", { method: "post", body: data });
-    location.reload()
+    fetch("/", { method: "post", body: data });
+    // location.reload()
 })
 

@@ -1,11 +1,12 @@
 import re
 from turtle import title
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///todo.db"
 app.config['SQLALCHEMY_BINDS'] = {
+    'todologin': 'sqlite:///todologin.db',
     'todocomment':  'sqlite:///todocomment.db',
 }
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -26,13 +27,32 @@ class Todocomment(db.Model):
     todo_id = db.Column(db.Integer, nullable = False)
     desc = db.Column(db.String(500), nullable = False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Todologin(db.Model):
+    __bind_key__ = 'todologin'
+    sr_no = db.Column(db.Integer, primary_key = True)
+    todo_user = db.Column(db.String(20), nullable = False)
+    passw = db.Column(db.String(500), nullable = False)
     
 
-    def __repr__(self) -> str:
-        return f"{self.sr_no} - {self.desc}"
+    # def __repr__(self) -> str:
+    #     return f"{self.sr_no} - {self.desc}"
 
 @app.route("/" ,methods=['GET','POST'])
-def hello_world():
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        passw = request.form['pass']
+        todolog = Todologin(todo_user=username, passw=passw)
+        db.session.add(todolog)
+        db.session.commit()
+        return redirect(url_for('home'))
+    else:
+        return render_template('login.html')
+
+@app.route("/home" ,methods=['GET','POST'])
+def home():
+    # print(mssg)
     if request.method == 'POST':
         # print(request.form['title'])
         title = request.form['title']
@@ -40,14 +60,11 @@ def hello_world():
         todo = Todo(title=title, desc=desc)
         db.session.add(todo)
         db.session.commit()
-    allTodo = Todo.query.all()
-    print((allTodo))
-    return render_template('index.html', allTodo=allTodo)
+    else:
+        allTodo = Todo.query.all()
+        return render_template('index.html', allTodo=allTodo)
 
-@app.route("/show")
-def show_todo():
-    
-    return 'Hyy'
+
 
 @app.route('/delete/<int:sr_no>')
 def delete(sr_no):

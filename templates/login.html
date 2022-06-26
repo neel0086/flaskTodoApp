@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ToDo APP</title>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Links -->
+    
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}" />
+  </head>
+  <body>
+    <!-- Main Header -->
+    <div class="main-header">
+      <div class="navbar">
+        <h1>ToDo App</h1>
+      </div>
+    </div>
+    <!-- End Main Header -->
+    <div class="main_container" style="display:flex ;  justify-content: center;">
+      <div class="addtodo">
+        <!-- Add Task -->
+        <h2>LOGIN</h2>
+        <form id="addtask" action="/" method="POST">
+          
+          <input
+            
+            class="large"
+            type="text"
+            name="username"
+            placeholder="USERNAME"
+            spellcheck="false"
+          />
+          <input
+            
+            class="large"
+            type="password"
+            name="pass"
+            placeholder="PASSWORD"
+            spellcheck="false"
+          />
+          <button type="submit" class="submit-op">Submit</button>
+          <!-- <i class="tasks icon"></i> -->
+        </form>
+        <!--TODO -->
+      </div>
+      
+
+      
+   <script src={{url_for('static',filename='login.js')}}></script>
+  </body>
+</html>
