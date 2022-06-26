@@ -20,8 +20,10 @@
     <div class="main_container">
       <div class="addtodo">
         <!-- Add Task -->
+        {% if flag %}
         <h2>Add Your Todos</h2>
-        <form id="addtask" action="/" method="POST">
+        
+        <form id="addtask"  data={{utodo}}>
           
           <input
             id="add-task-input"
@@ -42,10 +44,11 @@
           <button type="submit" class="submit-op">Submit</button>
           <!-- <i class="tasks icon"></i> -->
         </form>
+        {% endif %}
         <!--TODO -->
       </div>
       <div class="todolist">
-        <h2>Your Todos</h2>
+        <h2>Todos</h2>
         {% if allTodo|length == 0 %}
               
           <div class="alert alert-dark" role="alert">
@@ -75,7 +78,7 @@
                   <button class="button-design"><a href="/{{todo.todo_user}}/update/{{todo.sr_no}}" type="button" >Update</button>
                   <button class="button-design"><a href="/{{todo.todo_user}}/delete/{{todo.sr_no}}" type="button">Delete</button>
                   {% endif %}
-                    <button class="button-design"><a href="/comment/{{todo.sr_no}}" type="button">comment</button>
+                    <button class="button-design"><a href="/{{todo.todo_user}}/comment/{{todo.sr_no}}" type="button">comment</button>
                 </td>
               </tr>
         

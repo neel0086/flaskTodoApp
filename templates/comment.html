@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="d-form">
                     <h4>Leave a comment</h4>
-                    <form id="algin-form" data={{todo.sr_no}}>
+                    <form id="algin-form" data={{session_user[0]}} data1={{session_user[1]}}>
            
                             <textarea name="desc" cols="40" rows="5" class="submit-op"></textarea>
                             <button type="submit" id="post" class="btn">Post Comment</button>
@@ -31,15 +31,31 @@
                     {% for comt in comments %}
                         {% if loop.index is divisibleby 2 %}
                             <div class="comment">
-                                <span>~ {{comt.date_created}}</span>
-                                <br>
+                                <span> Author:- {{comt.todo_user}}<br>&nbsp;&nbsp;  -date_created:- {{comt.date_created}}</span>
+                                <br><br>
+
                                 <p>{{comt.desc}}</p>
+                                
+                                <div class='comment-btn'>
+                                    {% if comt.todo_user==s_user %}
+                                    <!-- <button class="button-design"><a href="{{comt.todo_id}}/update/{{comt.sr_no}}" type="button" >Update</button> -->
+                                    <button class="button-design"><a href="{{comt.todo_id}}/delete/{{comt.sr_no}}" type="button">Delete</button>
+                                    {% endif %}
+                                </div>
+                                
                             </div>
                         {% else %}
                             <div class="darker">
-                                <span>~ {{comt.date_created}}</span>
-                                <br>
+                                <span> Author:- {{comt.todo_user}}<br>&nbsp;&nbsp;  -date_created:- {{comt.date_created}}</span>
+                                <br><br>
+
                                 <p>{{comt.desc}}</p>
+                                <div class='comment-btn'>
+                                    {% if comt.todo_user==s_user %}
+                                    <!-- <button class="button-design"><a href="{{comt.todo_id}}/update/{{comt.sr_no}}" type="button" >Update</button> -->
+                                        <button class="button-design"><a href="{{comt.todo_id}}/delete/{{comt.sr_no}}" type="button">Delete</button>
+                                    {% endif %}
+                                </div>
                             </div>
                         {% endif %}
                     {% endfor %}
